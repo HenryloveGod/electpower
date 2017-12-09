@@ -1,0 +1,116 @@
+{
+    "frame": [
+        "stt",
+        "addr",
+        "stt",
+        "control",
+        "length",
+        "data",
+        "cs",
+        "end"
+    ],
+    "method_define": {
+        "compare": "",
+        "addr": "",
+        "control": "",
+        "length": "",
+        "data": "",
+        "cs": "",
+        "end": ""
+    },
+    "pub_para": {
+        "data_length": {
+            "type": "int",
+            "def_val": 0
+        },
+        "addr": {
+            "type": "str12",
+            "def_val": "000000000000"
+        },
+        "control": {
+            "type": "control_bin",
+            "def_val": "00000000",
+            "child": {}
+        }
+    },
+    "stt": {
+        "len": 2,
+        "description": "起始位",
+        "type": "hex",
+        "action": {
+            "method": "compare",
+            "value:": "68",
+            "ne": "break",
+            "eq": "next"
+        }
+    },
+    "addr": {
+        "len": 6,
+        "description": "addr",
+        "type": "reverse_hex",
+        "action": {
+            "method": "addr",
+            "setpub_para:": "addr",
+            "err": "break",
+            "errmsg": "addr error",
+            "next": "next"
+        }
+    },
+    "control": {
+        "len": 1,
+        "description": "control",
+        "type": "bin",
+        "action": {
+            "method": "control",
+            "value:": "68",
+            "ne": "break",
+            "eq": "next"
+        }
+    },
+    "length": {
+        "len": 1,
+        "description": "length",
+        "type": "bin",
+        "action": {
+            "method": "length",
+            "value:": "data_length",
+            "ne": "break",
+            "eq": "next"
+        }
+    },
+    "data": {
+        "len": 0,
+        "lenby": "data_length",
+        "description": "data",
+        "type": "hex",
+        "action": {
+            "method": "data",
+            "value:": "68",
+            "ne": "break",
+            "eq": "next"
+        }
+    },
+    "cs": {
+        "len": 2,
+        "description": "cs",
+        "type": "hex",
+        "action": {
+            "method": "cs",
+            "err": "ignore",
+            "err_msg": "unexpect cs error!",
+            "next": "next"
+        }
+    },
+    "end": {
+        "len": 2,
+        "description": "end string",
+        "type": "hex",
+        "action": {
+            "method": "compare",
+            "value:": "16",
+            "ne": "break",
+            "err_msg": "end string error!",
+            "eq": "break"
+        }
+    }
+}

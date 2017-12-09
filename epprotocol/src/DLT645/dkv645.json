@@ -1,0 +1,45 @@
+{
+"readme":{
+	"single":"单一",
+	"DI1FF":"DI1位置变化的数据"
+
+},
+
+"distingish":{
+	"type1":{
+		"unit":"kWh",
+		"dtype":"XXXXXX.XX",
+		"dlen":4,
+		"team":"XXXXFFXX",
+		"readwrite":"readonly"
+	},
+	"type2":{
+		"unit":"kWh",
+		"dtype":"XXXXXX.XX",
+		"dlen":4,
+		"team":"XXXXXXXX",
+		"readwrite":"readonly"
+	},
+	"type3":{
+		"unit":"kvarh",
+		"dtype":"XXXXXX.XX",
+		"dlen":4,
+		"team":"XXXXXXXX",
+		"readwrite":"readonly"
+	}
+},
+
+
+"single":{
+	"00000000":{"des":"(当前)组合有功总电能","dtype":"type1"},
+	"00010000":{"des":"(当前)组合有功总电能","dtype":"type1"},
+	"00020000":{"des":"(当前)组合有功总电能","dtype":"type1"},
+	},
+"DI1FF":{
+	"0000FF00":{"des":"(当前)组合有功总电能","dtype":"type1"},
+	"0001FF00":{"des":"(当前)组合有功总电能","dtype":"type1"},
+	"0002FF00":{"des":"(当前)组合有功总电能","dtype":"type1"},
+	}
+}
+
+}
