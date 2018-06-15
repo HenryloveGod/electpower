@@ -60,11 +60,6 @@
 #define KEY_RECEIVE '\x12' /* C-r: receive file */
 #define KEY_BREAK   '\x1c' /* C-\: break */
 
-
-#define STIFF "/tmp/stiff"
-#define STOFF "/tmp/stoff"
-static int stoff,stiff;
-
 #define STO STDOUT_FILENO
 #define STI STDIN_FILENO
 
@@ -278,7 +273,6 @@ writen_ni(int fd, const void *buff, size_t n)
 	while (nl > 0) {
 		do {
 			nw = write(fd, p, nl);
-			nw = write(stoff, p, nl);
 		} while ( nw < 0 && errno == EINTR );
 		if ( nw <= 0 ) break;
 		nl -= nw;
@@ -623,8 +617,6 @@ run_cmd(int fd, ...)
 		/* connect stdin and stdout to serial port */
 		close(STI);
 		close(STO);
-		close(stiff);
-		close(stoff);
 		dup2(fd, STI);
 		dup2(fd, STO);
 		{
@@ -663,8 +655,6 @@ struct tty_q {
 	unsigned char buff[TTY_Q_SZ];
 } tty_q;
 
-
-
 /**********************************************************************/
 
 void
@@ -687,55 +677,15 @@ loop(void)
 	state = ST_TRANSPARENT;
 	dtr_up = 0;
 
-	struct tty_q fftty_q;
-
-	fftty_q.len = 0;
-
 	for (;;) {
-		//opts.lecho=1;
 		FD_ZERO(&rdset);
 		FD_ZERO(&wrset);
 		FD_SET(STI, &rdset);
 		FD_SET(tty_fd, &rdset);
 		if ( tty_q.len ) FD_SET(tty_fd, &wrset);
 
-		FD_SET(stiff, &rdset);
-		if(fftty_q.len  ) FD_SET(stoff, &wrset);
-
-
 		if (select(tty_fd + 1, &rdset, &wrset, NULL, NULL) < 0)
 			fatal("select failed: %d : %s", errno, strerror(errno));
-
-//////////////////////////////////////////////////////////////////////////
-		if ( FD_ISSET(stiff, &rdset) ) {
-			/* read from FIFO */
-			do {
-				n = read(stiff, &(fftty_q.buff),TTY_Q_SZ);
-			} while (n < 0 && errno == EINTR);
-
-			if (n == 0) {
-				fatal("stdin closed");
-			} else if (n < 0) {
-				/* is this really necessary? better safe than sory! */
-				if ( errno != EAGAIN && errno != EWOULDBLOCK ) 
-					fatal("read from stdin failed: %s", strerror(errno));
-			}else{
-				write(STO,fftty_q.buff,n);
-			}
-	
-
-
-
-		}
-
-
-
-//////////////////////////////////////////////////////////////////////////
-
-
-
-
-
 
 		if ( FD_ISSET(STI, &rdset) ) {
 
@@ -743,6 +693,8 @@ loop(void)
 
 			do {
 				n = read(STI, &c, 1);
+				//fd_printf(STO, "[%c]\n",c);
+				//printf("\n====[%d]\n",n);
 			} while (n < 0 && errno == EINTR);
 			if (n == 0) {
 				fatal("stdin closed");
@@ -1223,20 +1175,7 @@ main(int argc, char *argv[])
 
 	tty_fd = open(opts.port, O_RDWR | O_NONBLOCK | O_NOCTTY);
 	if (tty_fd < 0)
-		fatal("cannot open %s: %s\n", opts.port, strerror(errno));
-
-	stiff = open(STIFF, O_RDONLY | O_NONBLOCK);	
-	//mkfifo(STIFF, 0666);
-	if (stiff < 0)
-		fatal("cannot open %s: %s\n", STIFF, strerror(errno));
-
-	stoff = open(STOFF, O_WRONLY  | O_NONBLOCK);
-	mkfifo(STOFF, 0666);
-	if (stoff < 0)
-		fatal("cannot open %s: %s\n", STOFF, strerror(errno));
-
-
-
+		fatal("cannot open %s: %s", opts.port, strerror(errno));
 
 	if ( opts.noinit ) {
 		r = term_add(tty_fd);
@@ -1269,9 +1208,6 @@ main(int argc, char *argv[])
 			  term_strerror(term_errno, errno));
 
 	fd_printf(STO, "Terminal ready\r\n");
-
-
-
 	loop();
 
 	fd_printf(STO, "\r\n");

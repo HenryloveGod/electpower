@@ -1,5 +1,9 @@
 {
     "files.associations": {
-        "smsport.h": "c"
+        "smsport.h": "c",
+        "fcntl.h": "c",
+        "types.h": "c",
+        "unistd.h": "c",
+        "stat.h": "c"
     }
 }
