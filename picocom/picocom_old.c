@@ -313,17 +313,13 @@ fatal (const char *format, ...)
 	va_end(args);
 	
 	s = "\r\nFATAL: ";
-	writen_ni(STO, s, strlen(s));
-	writen_ni(STO, buf, len);
+	write(STO, s, strlen(s));
+	write(STO, buf, len);
 	s = "\r\n";
-	writen_ni(STO, s, strlen(s));
+	write(STO, s, strlen(s));
 
 	/* wait a bit for output to drain */
 	sleep(1);
-
-#ifdef UUCP_LOCK_DIR
-	uucp_unlock();
-#endif
 	
 	exit(EXIT_FAILURE);
 }

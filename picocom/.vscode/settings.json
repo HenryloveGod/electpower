@@ -4,6 +4,7 @@
         "fcntl.h": "c",
         "types.h": "c",
         "unistd.h": "c",
-        "stat.h": "c"
+        "stat.h": "c",
+        "errno.h": "c"
     }
 }

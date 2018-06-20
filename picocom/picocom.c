@@ -63,9 +63,9 @@
 
 #define STIFF "/tmp/stiff"
 #define STOFF "/tmp/stoff"
-static int stoff,stiff;
+static int stoff,stiff,STO;
 
-#define STO STDOUT_FILENO
+//#define STO STDOUT_FILENO
 #define STI STDIN_FILENO
 
 /**********************************************************************/
@@ -278,7 +278,6 @@ writen_ni(int fd, const void *buff, size_t n)
 	while (nl > 0) {
 		do {
 			nw = write(fd, p, nl);
-			nw = write(stoff, p, nl);
 		} while ( nw < 0 && errno == EINTR );
 		if ( nw <= 0 ) break;
 		nl -= nw;
@@ -623,8 +622,8 @@ run_cmd(int fd, ...)
 		/* connect stdin and stdout to serial port */
 		close(STI);
 		close(STO);
-		close(stiff);
-		close(stoff);
+		// close(stiff);
+		// close(stoff);
 		dup2(fd, STI);
 		dup2(fd, STO);
 		{
@@ -661,6 +660,8 @@ run_cmd(int fd, ...)
 struct tty_q {
 	int len;
 	unsigned char buff[TTY_Q_SZ];
+	unsigned char recv[TTY_Q_SZ];
+	int rlen;
 } tty_q;
 
 
@@ -697,13 +698,13 @@ loop(void)
 		FD_ZERO(&wrset);
 		FD_SET(STI, &rdset);
 		FD_SET(tty_fd, &rdset);
-		if ( tty_q.len ) FD_SET(tty_fd, &wrset);
+		if ( tty_q.len || fftty_q.len ) FD_SET(tty_fd, &wrset);
 
 		FD_SET(stiff, &rdset);
-		if(fftty_q.len  ) FD_SET(stoff, &wrset);
+		// if(fftty_q.len  ) FD_SET(stoff, &wrset);
 
 
-		if (select(tty_fd + 1, &rdset, &wrset, NULL, NULL) < 0)
+		if (select(tty_fd + 10, &rdset, &wrset, NULL, NULL) < 0)
 			fatal("select failed: %d : %s", errno, strerror(errno));
 
 //////////////////////////////////////////////////////////////////////////
@@ -711,31 +712,19 @@ loop(void)
 			/* read from FIFO */
 			do {
 				n = read(stiff, &(fftty_q.buff),TTY_Q_SZ);
+				fftty_q.len =n;
 			} while (n < 0 && errno == EINTR);
 
-			if (n == 0) {
-				fatal("stdin closed");
+			if (n > 0) {
+				//fprintf(stderr,"\nrecive:%s\n",fftty_q.buff);
 			} else if (n < 0) {
 				/* is this really necessary? better safe than sory! */
 				if ( errno != EAGAIN && errno != EWOULDBLOCK ) 
 					fatal("read from stdin failed: %s", strerror(errno));
-			}else{
-				write(STO,fftty_q.buff,n);
 			}
-	
-
-
-
 		}
 
-
-
 //////////////////////////////////////////////////////////////////////////
-
-
-
-
-
 
 		if ( FD_ISSET(STI, &rdset) ) {
 
@@ -753,6 +742,8 @@ loop(void)
 				else
 					goto skip_proc_STI;
 			}
+
+			fprintf(stderr,"%c",c);
 
 			switch (state) {
 
@@ -881,9 +872,11 @@ loop(void)
 				break;
 
 			case ST_TRANSPARENT:
+				
 				if ( c == opts.escape ) {
 					state = ST_COMMAND;
 				} else {
+					
 					if (tty_q.len + M_MAXMAP <= TTY_Q_SZ) {
 						n = do_map((char *)tty_q.buff + tty_q.len, 
 								   opts.omap, c);
@@ -914,7 +907,7 @@ loop(void)
 			} else if ( n < 0 ) {
 				if ( errno != EAGAIN && errno != EWOULDBLOCK )
 					fatal("read from term failed: %s", strerror(errno));
-			} else {
+			} else {	
 				map_and_write(STO, opts.imap, c);
 			}
 		}
@@ -923,13 +916,30 @@ loop(void)
 
 			/* write to port */
 
-			do {
-				n = write(tty_fd, tty_q.buff, tty_q.len);
-			} while ( n < 0 && errno == EINTR );
-			if ( n <= 0 )
-				fatal("write to term failed: %s", strerror(errno));
-			memcpy(tty_q.buff, tty_q.buff + n, tty_q.len - n);
-			tty_q.len -= n;
+			if(tty_q.len > 0){
+				do
+				{
+					n = write(tty_fd, tty_q.buff, tty_q.len);
+
+				} while (n < 0 && errno == EINTR);
+				if (n <= 0)
+					fatal("write to term failed: %s", strerror(errno));
+				memcpy(tty_q.buff, tty_q.buff + n, tty_q.len - n);
+				tty_q.len -= n;
+				
+			}
+
+			if (fftty_q.len > 0)
+			{
+				do
+				{
+					n = write(tty_fd, fftty_q.buff, fftty_q.len);
+				} while (n < 0 && errno == EINTR);
+				if (n <= 0)
+					fatal("write to term failed: %s", strerror(errno));
+				memcpy(fftty_q.buff, fftty_q.buff + n, fftty_q.len - n);
+				fftty_q.len -= n;
+			}
 		}
 	}
 }
@@ -1207,6 +1217,28 @@ main(int argc, char *argv[])
 {
 	int r;
 
+
+    if (access(STIFF, F_OK) == -1) {  
+        if (( mkfifo(STIFF, 0777)) != 0) {  
+            fprintf(stderr, "Could not create fifo %s\n", STIFF);  
+            exit(EXIT_FAILURE);  
+        }  
+    }  
+    if (access(STOFF, F_OK) == -1) {  
+        if (( mkfifo(STOFF, 0777)) != 0) {  
+            fprintf(stderr, "Could not create fifo %s\n", STOFF);  
+            exit(EXIT_FAILURE);  
+        }  
+    }  
+	if ((stiff = open(STIFF, O_RDWR | O_NONBLOCK)) < 0)
+		fatal("cannot open %s: %s\n", STIFF, strerror(errno));
+	if ((stoff = open(STOFF, O_RDWR | O_NONBLOCK)) < 0)
+		fatal("cannot open %s: %s\n", STIFF, strerror(errno));
+
+
+	STO = stoff;
+	
+
 	parse_args(argc, argv);
 
 	establish_signal_handlers();
@@ -1224,18 +1256,6 @@ main(int argc, char *argv[])
 	tty_fd = open(opts.port, O_RDWR | O_NONBLOCK | O_NOCTTY);
 	if (tty_fd < 0)
 		fatal("cannot open %s: %s\n", opts.port, strerror(errno));
-
-	stiff = open(STIFF, O_RDONLY | O_NONBLOCK);	
-	//mkfifo(STIFF, 0666);
-	if (stiff < 0)
-		fatal("cannot open %s: %s\n", STIFF, strerror(errno));
-
-	stoff = open(STOFF, O_WRONLY  | O_NONBLOCK);
-	mkfifo(STOFF, 0666);
-	if (stoff < 0)
-		fatal("cannot open %s: %s\n", STOFF, strerror(errno));
-
-
 
 
 	if ( opts.noinit ) {
