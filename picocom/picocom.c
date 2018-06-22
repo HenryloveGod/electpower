@@ -716,6 +716,10 @@ loop(void)
 			} while (n < 0 && errno == EINTR);
 
 			if (n > 0) {
+				int i=0;
+				for(;i<n;i++)
+					printf("%c",fftty_q.buff[i]);
+				printf("\r\n");
 				//fprintf(stderr,"\nrecive:%s\n",fftty_q.buff);
 			} else if (n < 0) {
 				/* is this really necessary? better safe than sory! */
@@ -1233,7 +1237,7 @@ main(int argc, char *argv[])
 	if ((stiff = open(STIFF, O_RDWR | O_NONBLOCK)) < 0)
 		fatal("cannot open %s: %s\n", STIFF, strerror(errno));
 	if ((stoff = open(STOFF, O_RDWR | O_NONBLOCK)) < 0)
-		fatal("cannot open %s: %s\n", STIFF, strerror(errno));
+		fatal("cannot open %s: %s\n", STOFF, strerror(errno));
 
 
 	STO = stoff;

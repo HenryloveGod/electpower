@@ -1,5 +1,10 @@
 {
     "files.associations": {
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "thread": "c",
+        "*.tcc": "c",
+        "fstream": "c",
+        "string.h": "c",
+        "stdlib.h": "c"
     }
 }

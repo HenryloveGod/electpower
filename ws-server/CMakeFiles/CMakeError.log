@@ -1,0 +1,90 @@
+Performing C SOURCE FILE Test HAS_LWS_WITHOUT_SERVER failed with the following output:
+Change Dir: /home/dl/workspace/libwebsockets/minimal-examples/ws-server/minimal-ws-server-threads/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_4190c/fast"
+/usr/bin/make -f CMakeFiles/cmTC_4190c.dir/build.make CMakeFiles/cmTC_4190c.dir/build
+make[1]: Entering directory '/home/dl/workspace/libwebsockets/minimal-examples/ws-server/minimal-ws-server-threads/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_4190c.dir/src.c.o
+/usr/bin/cc    -DHAS_LWS_WITHOUT_SERVER   -o CMakeFiles/cmTC_4190c.dir/src.c.o   -c /home/dl/workspace/libwebsockets/minimal-examples/ws-server/minimal-ws-server-threads/CMakeFiles/CMakeTmp/src.c
+/home/dl/workspace/libwebsockets/minimal-examples/ws-server/minimal-ws-server-threads/CMakeFiles/CMakeTmp/src.c: In function ‘main’:
+/home/dl/workspace/libwebsockets/minimal-examples/ws-server/minimal-ws-server-threads/CMakeFiles/CMakeTmp/src.c:6:2: error: ‘fail’ undeclared (first use in this function)
+  fail;
+  ^
+/home/dl/workspace/libwebsockets/minimal-examples/ws-server/minimal-ws-server-threads/CMakeFiles/CMakeTmp/src.c:6:2: note: each undeclared identifier is reported only once for each function it appears in
+CMakeFiles/cmTC_4190c.dir/build.make:65: recipe for target 'CMakeFiles/cmTC_4190c.dir/src.c.o' failed
+make[1]: *** [CMakeFiles/cmTC_4190c.dir/src.c.o] Error 1
+make[1]: Leaving directory '/home/dl/workspace/libwebsockets/minimal-examples/ws-server/minimal-ws-server-threads/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_4190c/fast' failed
+make: *** [cmTC_4190c/fast] Error 2
+
+Source file was:
+#include <libwebsockets.h>
+int main(void) {
+#if defined(LWS_WITHOUT_SERVER)
+ return 0;
+#else
+ fail;
+#endif
+ return 0;
+}
+
+Performing C SOURCE FILE Test HAS_LWS_WITHOUT_SERVER failed with the following output:
+Change Dir: /home/dl/workspace/electpower/minimal-ws-server-threads/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_6061f/fast"
+/usr/bin/make -f CMakeFiles/cmTC_6061f.dir/build.make CMakeFiles/cmTC_6061f.dir/build
+make[1]: Entering directory '/home/dl/workspace/electpower/minimal-ws-server-threads/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_6061f.dir/src.c.o
+/usr/bin/cc    -DHAS_LWS_WITHOUT_SERVER   -o CMakeFiles/cmTC_6061f.dir/src.c.o   -c /home/dl/workspace/electpower/minimal-ws-server-threads/CMakeFiles/CMakeTmp/src.c
+/home/dl/workspace/electpower/minimal-ws-server-threads/CMakeFiles/CMakeTmp/src.c: In function ‘main’:
+/home/dl/workspace/electpower/minimal-ws-server-threads/CMakeFiles/CMakeTmp/src.c:6:2: error: ‘fail’ undeclared (first use in this function)
+  fail;
+  ^
+/home/dl/workspace/electpower/minimal-ws-server-threads/CMakeFiles/CMakeTmp/src.c:6:2: note: each undeclared identifier is reported only once for each function it appears in
+CMakeFiles/cmTC_6061f.dir/build.make:65: recipe for target 'CMakeFiles/cmTC_6061f.dir/src.c.o' failed
+make[1]: *** [CMakeFiles/cmTC_6061f.dir/src.c.o] Error 1
+make[1]: Leaving directory '/home/dl/workspace/electpower/minimal-ws-server-threads/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_6061f/fast' failed
+make: *** [cmTC_6061f/fast] Error 2
+
+Source file was:
+#include <libwebsockets.h>
+int main(void) {
+#if defined(LWS_WITHOUT_SERVER)
+ return 0;
+#else
+ fail;
+#endif
+ return 0;
+}
+
+Performing C SOURCE FILE Test HAS_LWS_WITHOUT_SERVER failed with the following output:
+Change Dir: /home/dl/workspace/electpower/ws-server/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_6cf67/fast"
+/usr/bin/make -f CMakeFiles/cmTC_6cf67.dir/build.make CMakeFiles/cmTC_6cf67.dir/build
+make[1]: Entering directory '/home/dl/workspace/electpower/ws-server/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_6cf67.dir/src.c.o
+/usr/bin/cc    -DHAS_LWS_WITHOUT_SERVER   -o CMakeFiles/cmTC_6cf67.dir/src.c.o   -c /home/dl/workspace/electpower/ws-server/CMakeFiles/CMakeTmp/src.c
+/home/dl/workspace/electpower/ws-server/CMakeFiles/CMakeTmp/src.c: In function ‘main’:
+/home/dl/workspace/electpower/ws-server/CMakeFiles/CMakeTmp/src.c:6:2: error: ‘fail’ undeclared (first use in this function)
+  fail;
+  ^
+/home/dl/workspace/electpower/ws-server/CMakeFiles/CMakeTmp/src.c:6:2: note: each undeclared identifier is reported only once for each function it appears in
+CMakeFiles/cmTC_6cf67.dir/build.make:65: recipe for target 'CMakeFiles/cmTC_6cf67.dir/src.c.o' failed
+make[1]: *** [CMakeFiles/cmTC_6cf67.dir/src.c.o] Error 1
+make[1]: Leaving directory '/home/dl/workspace/electpower/ws-server/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_6cf67/fast' failed
+make: *** [cmTC_6cf67/fast] Error 2
+
+Source file was:
+#include <libwebsockets.h>
+int main(void) {
+#if defined(LWS_WITHOUT_SERVER)
+ return 0;
+#else
+ fail;
+#endif
+ return 0;
+}
+

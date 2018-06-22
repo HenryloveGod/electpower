@@ -137,7 +137,7 @@ do_map (char *b, int map, char c)
 		break;
 	default:
 		b[0] = c; n = 1;
-         printf("=");
+  
 		break;
 	}
 
@@ -223,7 +223,7 @@ int main(int argc, char *argv[])
                 if (errno != EAGAIN && errno != EWOULDBLOCK)
                     fatal("read from stdin failed: %s", strerror(errno));
             }else{
-                printf("-");
+            
 			    n = do_map((char *)in_buf.buf + in_buf.len,  M_E_DFL,c);
 			    in_buf.len += n;
             }
