@@ -5,6 +5,9 @@
         "*.tcc": "c",
         "fstream": "c",
         "string.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "getopt.h": "c",
+        "dlt645_api_07.h": "c",
+        "ratio": "c"
     }
 }

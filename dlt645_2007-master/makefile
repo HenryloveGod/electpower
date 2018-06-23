@@ -26,7 +26,7 @@ else
 #LDFLAGS     += -lpthread
 endif
 
-TGT         = 1
+TGT         = test
 OTHER_CSRC  = 
 OTHER_ASRC  = 
 CSRC        = dlt645_api_07.c main.c

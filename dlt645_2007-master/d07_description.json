@@ -1,0 +1,35 @@
+{
+
+    "direction":{
+        "0":"from server","1":"from client"
+    },
+    "is_normal":{
+        "0":"normal response",
+        "1":"abnormal response"
+    },
+    "is_follow_data":{
+        "0":"no follow data",
+        "1":"have follw data"
+    },
+    "ctl_func_code":{
+        "8":"broadcoast",
+        "17":"read data",
+        "18":"read follow data",
+        "19":"read communication data",
+        "20":"write data",
+        "21":"write communication data",
+        "22":"froze command",
+        "23":"modify comm rate",
+        "24":"modify pwd",
+        "25":"clean max demand",
+        "26":"clean meter",
+        "27":"clean event"
+    },
+    "addr":{
+        "decription":"addr:",
+        "type":"addr"
+    }
+
+
+
+}

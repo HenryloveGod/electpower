@@ -228,8 +228,6 @@ int main(int argc, char *argv[])
 			    in_buf.len += n;
             }
             
-
-
         }
 
     skip_proc_STI:

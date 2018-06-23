@@ -2,7 +2,8 @@
 #include <unistd.h>
 #include <getopt.h>
 #include "dlt645_api_07.h"
-
+#include <stdlib.h>
+#include <string.h>
 
 int g_num = 0;
 void test_get_ruler_info();
@@ -15,7 +16,7 @@ void test_all_ruler_d07_meter(); // 实际测试Dlt645 2007 国标表
 	
 
 
-
+static int g_need_pack_07;
 
 
 
@@ -91,10 +92,6 @@ int main(int argc, char *argv[])
 			case 'h':
 				printf("%s\n",helpinfo);
 				break;
-								
-			
-				
-
 			case 0:
 				if(!strcmp("all", longOpts[longIndex].name))
 				{	
@@ -201,11 +198,13 @@ void unpack_d07_frame_test(int argc, char*argv[])
 	printf(" address\t=  %s\n", stUnPack.address);
 	printf("\n<3> - data fields \n");
 	if(stUnPack.flag == E_D07_UNPD_FLG_OK)
-	{
+	{
+
 		printf("正确的回答:\n");
 	}
 	else if(stUnPack.flag == E_D07_UNPD_FLG_ERROR_OK)
-	{
+	{
+
 		printf("异常的回答:\n");
 	}
 	printf("%s\n", g_out_data_07);
@@ -605,7 +604,8 @@ void show_packet(int buflen, char* buf)
 
 
 void test_all_ruler_d07_meter()
-{
+{
+
 
 
 }

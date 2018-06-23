@@ -7573,7 +7573,8 @@ eD07Err trans_d07_data_YYMMDDhhmmss_2(E_D07_TRANS_FLG flag, char *user, char *fr
     char acTmp[24] = {0};
     INT32 i = 0;
     if(NULL == user || NULL == frame)
-    {
+    {
+
         return E_D07_ERRO_NULL;
     }
     
@@ -7673,7 +7674,8 @@ eD07Err trans_d07_data_YYMMDDhhmm(E_D07_TRANS_FLG flag, char *user, char *frame)
     INT32 i = 0;
     
     if(NULL == user || NULL == frame)
-    {
+    {
+
         return E_D07_ERRO_NULL;
     }
     
@@ -7734,7 +7736,8 @@ eD07Err trans_d07_data_YYMMDDhhmmNN(E_D07_TRANS_FLG flag, char *user, char *fram
     INT32 i = 0;
     
     if(NULL == user || NULL == frame)
-    {
+    {
+
         return E_D07_ERRO_NULL;
     }
     
@@ -7799,7 +7802,8 @@ eD07Err trans_d07_data_YYMMDDhhmmss(E_D07_TRANS_FLG flag, char *user, char *fram
     INT32 i = 0;
     
     if(NULL == user || NULL == frame)
-    {
+    {
+
         return E_D07_ERRO_NULL;
     }
     
@@ -8199,7 +8203,8 @@ eD07Err trans_d07_data_MMDDNN_14(E_D07_TRANS_FLG flag, char *user, char *frame)
 #endif
 
     if(NULL == user || NULL == frame)
-    {
+    {
+
         return E_D07_ERRO_NULL;
     }
     
@@ -8265,7 +8270,8 @@ eD07Err trans_d07_data_hhmmNN_14(E_D07_TRANS_FLG flag, char *user, char *frame)
     INT32 len = 0;
 #endif
     if(NULL == user || NULL == frame)
-    {
+    {
+
         return E_D07_ERRO_NULL;
     }
     
@@ -8343,7 +8349,8 @@ eD07Err trans_d07_data_hhmmss(E_D07_TRANS_FLG flag, char *user, char *frame)
     INT32 i = 0;
     
     if(NULL == user || NULL == frame)
-    {
+    {
+
         return E_D07_ERRO_NULL;
     }
 
@@ -8413,7 +8420,8 @@ eD07Err trans_d07_data_DDhh(E_D07_TRANS_FLG flag, char *user, char *frame)
     INT32 i = 0;
     
     if(NULL == user || NULL == frame)
-    {
+    {
+
         return E_D07_ERRO_NULL;
     }
 
@@ -8464,7 +8472,8 @@ eD07Err trans_d07_data_MMDDhhmm(E_D07_TRANS_FLG flag, char *user, char *frame)
     INT32 i = 0;
     
     if(NULL == user || NULL == frame)
-    {
+    {
+
         return E_D07_ERRO_NULL;
     }
     
@@ -8523,7 +8532,8 @@ eD07Err trans_d07_data_YYMMDDWW(E_D07_TRANS_FLG flag, char *user, char *frame)
     char acTmp[10] = {0};
     INT32 i = 0;
     if(NULL == user || NULL == frame)
-    {
+    {
+
         return E_D07_ERRO_NULL;
     }
     
@@ -8583,7 +8593,8 @@ eD07Err trans_d07_data_YYMMDDNN(E_D07_TRANS_FLG flag, char *user, char *frame)
     INT32 i = 0;
     
     if(NULL == user || NULL == frame)
-    {
+    {
+
         return E_D07_ERRO_NULL;
     }
     
@@ -11505,7 +11516,8 @@ eD07Err trans_d07_data_recd_meter_prog(E_D07_TRANS_FLG flag, char *user, char *f
     if(NULL == user || NULL == frame)
     {
         return E_D07_ERRO_NULL;
-    }
+    }
+
     
     pDataUser = (S_D07_EventMeterProgram *)user;
     
